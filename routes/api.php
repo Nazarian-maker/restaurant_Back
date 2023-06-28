@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DishController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,13 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [AuthController::class, 'login']);
+
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}/dishes', [CategoryController::class, 'indexByCategory']);
 Route::get('/dishes', [DishController::class, 'index']);
 Route::get('/menu', [DishController::class, 'menu']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
@@ -52,5 +54,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [DishController::class, 'show']);
         Route::put('/{id}', [DishController::class, 'update']);
         Route::delete('/{id}', [DishController::class, 'destroy']);
+    });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index']);
+        Route::post('/', [OrderController::class, 'store']);
+        Route::get('/{id}', [OrderController::class, 'show']);
+        Route::put('/{id}', [OrderController::class, 'update']);
+        Route::delete('/{id}', [OrderController::class, 'destroy']);
     });
 });
