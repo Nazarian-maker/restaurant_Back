@@ -9,15 +9,15 @@ class OrderFilter extends AbstractFilter
     public const NUMBER = 'number';
     public const TOTAL_COUNT = 'total_cost';
     public const CLOSED_AT = 'closed_at';
-    public const USER_ID = 'user_id';
+    public const IS_CLOSED = 'is_closed';
 
     protected function getCallbacks(): array
     {
         return [
             self::NUMBER => [$this, 'number'],
-            self::TOTAL_COUNT => [$this, 'totalCost'],
-            self::CLOSED_AT => [$this, 'closedAt'],
-            self::USER_ID => [$this, 'userId'],
+            self::TOTAL_COUNT => [$this, 'total_cost'],
+            self::CLOSED_AT => [$this, 'closed_at'],
+            self::IS_CLOSED => [$this, 'is_closed'],
         ];
     }
 
@@ -26,18 +26,18 @@ class OrderFilter extends AbstractFilter
         $builder->where('number', 'ilike', "%{$value}%");
     }
 
-    public function totalCost(Builder $builder, $value)
+    public function total_cost(Builder $builder, $value)
     {
         $builder->where('total_cost', 'ilike', "%{$value}%");
     }
 
-    public function closedAt(Builder $builder, $value)
+    public function closed_at(Builder $builder, $value)
     {
         $builder->where('closed_at', 'ilike', "%{$value}%");
     }
 
-    public function userId(Builder $builder, $value)
+    public function is_closed(Builder $builder, $value)
     {
-        $builder->where('user_id', 'ilike', "%{$value}%");
+        $builder->where('is_closed', 'ilike', "%{$value}%");
     }
 }
