@@ -3,7 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DishController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Order\DishOrderController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,5 +63,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [OrderController::class, 'show']);
         Route::put('/{id}', [OrderController::class, 'update']);
         Route::delete('/{id}', [OrderController::class, 'destroy']);
+
+        Route::post('/{id}', [DishOrderController::class, 'addDish']);
+        Route::put('/{id}/{dish_id}', [DishOrderController::class, 'deleteDish']);
+
     });
 });

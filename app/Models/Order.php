@@ -16,10 +16,10 @@ class Order extends Model
     protected $guarded = [];
 
     public function dishes() {
-        return $this->belongsToMany(Dish::class, 'dish_orders', 'order_id', 'dish_id');
+        return $this->belongsToMany(Dish::class, 'dish_orders', 'order_id', 'dish_id')->withPivot('count');
     }
 
     public function user() {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

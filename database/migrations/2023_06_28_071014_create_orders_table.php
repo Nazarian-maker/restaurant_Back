@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('total_cost')->default(0);
             $table->boolean('is_closed')->default('false');
             $table->dateTime('closed_at')->nullable();
-            $table->unsignedTinyInteger('user_id')->nullable();
+            $table->unsignedTinyInteger('user_id');
 
             $table->index('user_id', 'order_user_idx');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

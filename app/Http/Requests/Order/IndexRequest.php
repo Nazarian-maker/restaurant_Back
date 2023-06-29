@@ -27,7 +27,7 @@ class IndexRequest extends FormRequest
             'number' => 'integer',
             'total_cost' => 'integer',
             'closed_at' => 'date',
-            'is_closed' => ['boolean'],
+            'is_closed' => 'boolean',
             'user_id' => 'integer|exists:users,id',
             'sort' => 'nullable|string|in:asc,desc',
             'sort_By' => 'nullable|string|in:number,total_cost,closed_at,user_id',
