@@ -23,6 +23,10 @@ class AuthController extends Controller
                         'message' => 'Pin code does not match with our record.',
                     ], 401);
                 }
+                return response([
+                    'message' => 'User Logged In Successfully',
+                    'token' => $user->createToken("API TOKEN")->plainTextToken
+                ], 200);
             } else {
                 // Авторизация по email и password
                 $validateUser = Validator::make($credentials, [
@@ -39,17 +43,23 @@ class AuthController extends Controller
 
                 $user = User::where('email', $credentials['email'])->first();
 
-                if (!($user || Hash::check($credentials['password'], $user->password)) || $user->role_id == 3) {
+                if (!$user) {
+                    return response([
+                        'message' => 'Email or Password does not match with our record.',
+                    ], 401);
+                }
+
+                if (Hash::check($credentials['password'], $user->password) && $user->role_id != 3) {
+                    return response([
+                        'message' => 'User Logged In Successfully',
+                        'token' => $user->createToken("API TOKEN")->plainTextToken
+                    ], 200);
+                } else {
                     return response([
                         'message' => 'Email or Password does not match with our record.',
                     ], 401);
                 }
             }
-
-            return response([
-                'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
         } catch (\Throwable $th) {
             return response([
                 'message' => $th->getMessage()

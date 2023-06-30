@@ -7,6 +7,7 @@ use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -98,5 +99,9 @@ class UserController extends Controller
                 'message' => "Пользователь не существует :("
             ], 404);
         }
+    }
+
+    public function getUser(Request $request) {
+        return $request->user();
     }
 }
