@@ -6,8 +6,8 @@ use App\Http\Controllers\DishController;
 use App\Http\Controllers\Order\DishOrderController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,22 +21,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('/login', [AuthController::class, 'login']);
-//Просмотр меню
+//!Просмотр меню
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}/dishes', [CategoryController::class, 'indexByCategory']);
 Route::get('/dishes', [DishController::class, 'index']);
 Route::get('/menu', [DishController::class, 'menu']);
-//сброс пароля
+//!Сброс пароля
 Route::post('/forgot-password', [PasswordController::class, 'setEmail'])->name('password.email');
 Route::get('/reset-password/{token}', function ($token) {
     return ['token' => $token];
 })->name('password.reset');
 Route::post('/reset-password/{token}', [PasswordController::class, 'reset'])->name('password.update');
 Route::post('/reset-pin/{token}', [PasswordController::class, 'resetPin'])->name('pin_code.update');
-
+//!Выход, отчеты и информация
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [UserController::class, 'getUser']);
+    Route::get('/reports', [ReportController::class, 'index']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -71,6 +72,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/{id}', [DishOrderController::class, 'addDish']);
         Route::put('/{id}/{dish_id}', [DishOrderController::class, 'deleteDish']);
-
     });
 });
